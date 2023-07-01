@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 const feadbackForm = document.querySelector('.feedback-form');
 
-console.log(feadbackForm[0].value);
+// console.log(feadbackForm[0].value);
 
 feadbackForm.addEventListener('input', _.throttle(handlerInput, 500));
 feadbackForm.addEventListener('click', formSubmit);
 
-const formData = {};
+let formData = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
 
 function handlerInput(evt) {
   if (evt.target.type === 'email') {
@@ -20,10 +20,10 @@ function handlerInput(evt) {
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 }
 
-let inputs = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+// let inputs = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
 
-feadbackForm[0].value = inputs.email || '';
-feadbackForm[1].value = inputs.message || '';
+feadbackForm[0].value = formData.email || '';
+feadbackForm[1].value = formData.message || '';
 
 // console.log(inputs);
 
@@ -34,6 +34,6 @@ function formSubmit(evt) {
     localStorage.removeItem('feedback-form-state');
     feadbackForm[0].value = '';
     feadbackForm[1].value = '';
-    // console.log(evt.target);
+    formData = {};
   }
 }
